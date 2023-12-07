@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Management</h1>
+
+    <label for="searchInput">Search Student:</label>
+    <input type="text" id="searchInput" oninput="searchStudent()">
+    
+    <label for="sortSelect">Sort By:</label>
+    <select id="sortSelect" onchange="sortStudents()">
+        <option value="name">Name</option>
+        <option value="result">Result</option>
+    </select>
+
+    <ul id="resultList"></ul>
+
+    <script>
+        var students = [
+            { name: "John Doe", result: 85 },
+            { name: "Jane Smith", result: 92 },
+            { name: "Bob Johnson", result: 78 },
+            // Add more students as needed
+        ];
+
+        function renderStudents(studentList) {
+            var resultList = document.getElementById("resultList");
+            resultList.innerHTML = "";
+
+            studentList.forEach(function(student) {
+                var listItem = document.createElement("li");
+                listItem.textContent = student.name + " - Result: " + student.result;
+                resultList.appendChild(listItem);
+            });
+        }
+
+        function searchStudent() {
+            var searchInput = document.getElementById("searchInput").value.toLowerCase();
+            var filteredStudents = students.filter(function(student) {
+                return student.name.toLowerCase().includes(searchInput);
+            });
+
+            renderStudents(filteredStudents);
+        }
+
+        function sortStudents() {
+            var sortKey = document.getElementById("sortSelect").value;
+            var sortedStudents = [...students]; // Copy array to avoid modifying the original
+
+            sortedStudents.sort(function(a, b) {
+                return a[sortKey].localeCompare(b[sortKey]);
+            });
+
+            renderStudents(sortedStudents);
+        }
+
+        // Initial rendering
+        renderStudents(students);
+    </script>
+</body>
+</html>
